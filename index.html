@@ -153,6 +153,13 @@ details>*:not(summary){padding:13px 15px;background:var(--surf)}
 .timing{font-size:10px;font-weight:600;padding:2px 7px;border-radius:4px}
 .tq2{background:var(--grnl);color:var(--grn)}.th2{background:var(--ambl);color:var(--amb)}
 .empty{font-size:11.5px;color:var(--mt);text-align:center;padding:18px;font-style:italic}
+.conf-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;padding:14px 0}
+.conf-card{background:var(--surf2);border:1px solid var(--bdr);border-radius:var(--r);padding:16px}
+.conf-badge{font-size:10px;font-weight:700;padding:3px 9px;border-radius:12px;white-space:nowrap}
+.conf-bar-track{height:4px;background:var(--bdr);border-radius:2px;overflow:hidden}
+.conf-bar-fill{height:100%;border-radius:2px;transition:width .3s}
+.conf-reasons{font-size:9.5px;color:var(--ft);margin-top:6px;line-height:1.5}
+.mini-pill{font-size:9px;font-weight:600;padding:2px 7px;border-radius:10px;white-space:nowrap}
 .foot{text-align:center;padding:18px 36px;font-size:10px;color:var(--ft);border-top:1px solid var(--bdr)}
 @media(max-width:768px){
   .topbar,.phdr,.tab-panel,.gloss{padding-left:14px;padding-right:14px}
@@ -176,9 +183,257 @@ details>*:not(summary){padding:13px 15px;background:var(--surf)}
 
 <details class="gloss"><summary class="gst">📐 Metric Definitions & Calculation Methods</summary><div class="gb"><div class='gr'><div class='gt'>Integration GAS vs Overall GAS</div><div class='gd'>Integration GAS = revenue earned specifically through the named integration (Shopify, HubSpot, etc.) — only campaigns that used that integration's data connection. Overall Account GAS = total Gross Ad Spend for that account across ALL StackAdapt campaigns, all channels. Integration GAS is always ≤ Overall GAS for the same account.</div></div><div class='gr'><div class='gt'>Deduplication</div><div class='gd'>If a campaign runs on 2 or more integrations simultaneously, its GAS is divided evenly across those integrations. This prevents the same campaign GAS from being counted in full in multiple integration totals.</div></div><div class='gr'><div class='gt'>Q2 QTD Integration GAS</div><div class='gd'>Actual integration GAS recorded April 1–19, 2026 (19 of 91 days = ~21% of the quarter). Deduped.</div></div><div class='gr'><div class='gt'>Pacing (Linear Run Rate)</div><div class='gd'>QTD integration GAS ÷ 19 days × 91 days. Straight-line projection at current daily rate. Intentionally conservative — no seasonal adjustment.</div></div><div class='gr'><div class='gt'>Model Call — Integration GAS</div><div class='gd'>Estimate of full-quarter integration GAS from three components: (1) Active accounts: QTD daily rate × remaining days, using account-level Q2/Q1 seasonality for HubSpot/Snowflake (2 years of data), linear for Shopify/Klaviyo (ramp year distortion). Blended 60/40 with rep's integration GAS estimate where available and within 3x of model. (2) Watch list: Q1 integration GAS × seasonality × activation probability. (3) Coverage gap: trailing 2Q avg integration GAS × consistency score.</div></div><div class='gr'><div class='gt'>Integration Ratio</div><div class='gd'>Trailing 2-quarter average of (account integration GAS ÷ account overall GAS). Used to convert a rep's overall account forecast into an estimated integration GAS contribution. Based on Q4 2025 + Q1 2026 actuals per account per integration.</div></div><div class='gr'><div class='gt'>Rep Q2 Overall Acct FC</div><div class='gd'>The rep's own forecast for total account GAS in Q2 — covering ALL spend on StackAdapt, not just integration-linked campaigns. This is the number pulled from the SFDC weekly forecast pull.</div></div><div class='gr'><div class='gt'>Integration GAS Est. from Rep FC</div><div class='gd'>Rep Q2 Overall Acct FC × account's trailing integration ratio. Always ≤ the overall rep forecast. Represents the model's estimate of how much of the rep's forecasted spend will flow through the integration specifically.</div></div><div class='gr'><div class='gt'>New Business QTD — Integration GAS</div><div class='gd'>Integration GAS from accounts that had $0 integration activity in Q1 2026. Quarterly cohort definition: active = any integration GAS > $0 in that quarter.</div></div><div class='gr'><div class='gt'>Not Yet Active Q2 — Integration GAS Watch</div><div class='gd'>Sum of Q1 2026 integration GAS from accounts with $0 Q2 activity so far. At day 14 of 91 this is a watch list, NOT confirmed churn — most accounts haven't launched Q2 campaigns yet.</div></div><div class='gr'><div class='gt'>Watch List Probability</div><div class='gd'>Model-assigned likelihood of Q2 activation. Formula: base = consistency score (# active quarters ÷ # available quarters) +15% if active in Q2 2025, +10% if rep has a Q2 forecast, -20% if declining trajectory, +10% if growing. Capped at 95%.</div></div><div class='gr'><div class='gt'>Account Trajectory</div><div class='gd'>Based on last 3 active quarters of integration GAS: Growing = last > first by >10%. Declining = last < first by >10%. Stable = within ±10%. New/Limited = <3 quarters of history.</div></div><div class='gr'><div class='gt'>Forecast Flag ⬇ Risk</div><div class='gd'>Rep's Q2 overall account forecast < 80% of trailing 2Q avg overall account GAS. Filtered to accounts with ≥$10K trailing avg integration GAS. The 'Integration GAS at Stake' column shows how much integration revenue is exposed.</div></div><div class='gr'><div class='gt'>WoW Forecast Movement Flag</div><div class='gd'>Compares rep overall account forecasts week over week. Flags integration accounts where the forecast moved ≥20% AND ≥5K in either direction. ⬆ Increased = rep raised their forecast (potential integration GAS upside). ⬇ Decreased = rep lowered forecast (integration GAS at risk). Based on overall account forecast, not integration-specific.</div></div><div class='gr'><div class='gt'>Forecast Flag ⬆ Opportunity</div><div class='gd'>Rep's Q2 overall account forecast > 120% of trailing 2Q avg overall GAS — potential integration GAS upside.</div></div></div></details>
 
-<div class="tabs"><button class="tab-btn" onclick="switchTab('amanda')" id="btn-amanda">Amanda</button><button class="tab-btn" onclick="switchTab('lucy')" id="btn-lucy">Lucy</button></div>
+<div class="tabs"><button class="tab-btn" onclick="switchTab('summary')" id="btn-summary">Summary</button><button class="tab-btn" onclick="switchTab('amanda')" id="btn-amanda">Amanda</button><button class="tab-btn" onclick="switchTab('lucy')" id="btn-lucy">Lucy</button></div>
 
 
+<div class="tab-panel" id="panel-summary">
+  <div class="ic-hdr-main">
+    <div class="av" style="background:linear-gradient(135deg,#3D2B8E,#6C5CE7)">∑</div>
+    <div>
+      <div class="ic-nm">Global Summary — All Integrations</div>
+      <div class="ic-mt">Q2 2026 · 19 of 91 days elapsed · Refreshed April 20, 2026</div>
+    </div>
+  </div>
+
+  <div class="pills" style="margin-bottom:20px">
+    <div class="pill pill-model">
+      <div class="pl">Total Q2 QTD — Integration GAS</div>
+      <div class="pv">$2.32M</div>
+      <div class="ps">All integrations combined · 19 days · deduped</div>
+    </div>
+    <div class="pill pill-model">
+      <div class="pl">Total Model Call — Integration GAS</div>
+      <div class="pv">$11.97M</div>
+      <div class="ps">Active + watch list + gap · all integrations</div>
+    </div>
+    <div class="pill pill-plan">
+      <div class="pl">Total Q2 Plan — Integration GAS</div>
+      <div class="pv">$15.46M</div>
+      <div class="ps">Integrations with plans: Shopify, HubSpot, Snowflake</div>
+    </div>
+    <div class="pill" style="background:#FEE2E2;border-color:#FECACA">
+      <div class="pl">Model vs Plan</div>
+      <div class="pv" style="color:#B91C1C">$-3.50M</div>
+      <div class="ps">Across integrations with plans</div>
+    </div>
+  </div>
+
+  <details open>
+    <summary class="st">📊 Integration Scorecard — Q2 2026
+      <span class="hint">All dollar figures are integration GAS (deduped). Confidence = model reliability score based on time elapsed, active account %, and historical depth.</span>
+    </summary>
+    <div class="tw"><table class="dt"><thead><tr>
+      <th>Integration</th><th>IC</th>
+      <th>Q2 QTD Int GAS</th><th>Model Call Int GAS</th><th>Plan</th><th>vs Plan</th>
+      <th>New Biz QTD Int GAS</th><th>Not Yet Active Int GAS</th><th>Confidence</th>
+    </tr></thead><tbody><tr>
+      <td class="td-name td-b" style="color:#96580A">Shopify</td>
+      <td style="font-size:10px;color:var(--mt)">Amanda</td>
+      <td class="td-num td-b">$1.28M<span class="sub"> int GAS</span></td>
+      <td class="td-num">$6.12M<span class="sub"> int GAS</span></td>
+      <td class="td-num">$9.28M</td>
+      <td class="td-num td-risk td-b">$-3.16M</td>
+      <td class="td-num" style="color:#1A6B42">$72K<span class="sub"> int GAS</span></td>
+      <td class="td-num" style="color:#B91C1C">$981K<span class="sub"> int GAS</span></td>
+      <td><span class="conf-badge" style="background:#FEF0D0;color:#96580A;font-size:10px">Medium 49/100</span></td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#1A6B42">Klaviyo</td>
+      <td style="font-size:10px;color:var(--mt)">Amanda</td>
+      <td class="td-num td-b">$173K<span class="sub"> int GAS</span></td>
+      <td class="td-num">$737K<span class="sub"> int GAS</span></td>
+      <td class="td-num">—</td>
+      <td class="td-num  td-b">—</td>
+      <td class="td-num" style="color:#1A6B42">$12K<span class="sub"> int GAS</span></td>
+      <td class="td-num" style="color:#B91C1C">$4K<span class="sub"> int GAS</span></td>
+      <td><span class="conf-badge" style="background:#E4F5EC;color:#1A6B42;font-size:10px">High 59/100</span></td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#1A6B42">HubSpot</td>
+      <td style="font-size:10px;color:var(--mt)">Lucy</td>
+      <td class="td-num td-b">$548K<span class="sub"> int GAS</span></td>
+      <td class="td-num">$3.17M<span class="sub"> int GAS</span></td>
+      <td class="td-num">$3.54M</td>
+      <td class="td-num td-risk td-b">$-375K</td>
+      <td class="td-num" style="color:#1A6B42">$7K<span class="sub"> int GAS</span></td>
+      <td class="td-num" style="color:#B91C1C">$194K<span class="sub"> int GAS</span></td>
+      <td><span class="conf-badge" style="background:#E4F5EC;color:#1A6B42;font-size:10px">High 70/100</span></td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#1A6B42">Snowflake</td>
+      <td style="font-size:10px;color:var(--mt)">Amanda</td>
+      <td class="td-num td-b">$316K<span class="sub"> int GAS</span></td>
+      <td class="td-num">$1.94M<span class="sub"> int GAS</span></td>
+      <td class="td-num">$2.64M</td>
+      <td class="td-num td-risk td-b">$-698K</td>
+      <td class="td-num" style="color:#1A6B42">$0<span class="sub"> int GAS</span></td>
+      <td class="td-num" style="color:#B91C1C">$0<span class="sub"> int GAS</span></td>
+      <td><span class="conf-badge" style="background:#E4F5EC;color:#1A6B42;font-size:10px">High 72/100</span></td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#96580A">Salesforce</td>
+      <td style="font-size:10px;color:var(--mt)">Lucy</td>
+      <td class="td-num td-b">$45<span class="sub"> int GAS</span></td>
+      <td class="td-num">$217<span class="sub"> int GAS</span></td>
+      <td class="td-num">—</td>
+      <td class="td-num  td-b">—</td>
+      <td class="td-num" style="color:#1A6B42">$0<span class="sub"> int GAS</span></td>
+      <td class="td-num" style="color:#B91C1C">$0<span class="sub"> int GAS</span></td>
+      <td><span class="conf-badge" style="background:#FEF0D0;color:#96580A;font-size:10px">Medium 38/100</span></td>
+    </tr><tr style="font-weight:700;background:#F5F3FF">
+  <td class="td-name td-b" style="color:var(--pur)">TOTAL</td>
+  <td></td>
+  <td class="td-num td-b">$2.32M<span class="sub"> int GAS</span></td>
+  <td class="td-num td-b">$11.97M<span class="sub"> int GAS</span></td>
+  <td class="td-num td-b">$15.46M</td>
+  <td class="td-num td-b td-risk">$-3.50M</td>
+  <td class="td-num td-b" style="color:#1A6B42">$92K<span class="sub"> int GAS</span></td>
+  <td class="td-num td-b" style="color:#B91C1C">$1.18M<span class="sub"> int GAS</span></td>
+  <td></td>
+</tr></tbody></table></div>
+  </details>
+
+  <details open>
+    <summary class="st">📈 Historical Integration GAS — Trailing 4 Quarters + Q2 QTD
+      <span class="hint">All figures are integration-specific GAS (deduped at campaign level). Q2 2026 bar = QTD 19 days only — not a full quarter.</span>
+    </summary>
+    <div style="padding:16px 8px;height:280px"><canvas id="chart-summary-all" height="260"></canvas></div>
+  </details>
+
+  <details open>
+    <summary class="st">🔄 WoW Alliance Forecast Movement — Integration Level
+      <span class="hint">How the integration model call changed week over week (Wk1 Apr 14 → Wk2 Apr 20) and why. Wk1 model is back-calculated from the same account base at 14-day pacing — directionally accurate.</span>
+    </summary>
+    <div class="tw"><table class="dt"><thead><tr>
+      <th>Integration</th><th>IC</th>
+      <th>Wk1 Model Int GAS</th><th>Wk2 Model Int GAS</th>
+      <th>$ Change</th><th>% Change</th><th>Why it moved</th>
+    </tr></thead><tbody><tr>
+      <td class="td-name td-b" style="color:#6C63FF">Shopify</td>
+      <td style="font-size:10px;color:var(--mt)">Amanda</td>
+      <td class="td-num"><span class="int-est">$5.45M</span><span class="sub"> est.</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-b"><span class="int-est">$6.12M</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-up td-b">+$665K</td>
+      <td class="td-num td-up">+12.2%</td>
+      <td style="font-size:10.5px;color:var(--mt);padding:6px 10px;line-height:1.5">Active account pacing moved up $665,486 (5 more days of QTD data); ~14 accounts showing early Q2 activity contributing to stronger pacing signal</td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#FF6584">Klaviyo</td>
+      <td style="font-size:10px;color:var(--mt)">Amanda</td>
+      <td class="td-num"><span class="int-est">$634K</span><span class="sub"> est.</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-b"><span class="int-est">$737K</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-up td-b">+$103K</td>
+      <td class="td-num td-up">+16.3%</td>
+      <td style="font-size:10.5px;color:var(--mt);padding:6px 10px;line-height:1.5">Active account pacing moved up $103,474 (5 more days of QTD data); ~1 accounts showing early Q2 activity contributing to stronger pacing signal</td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#F5A623">HubSpot</td>
+      <td style="font-size:10px;color:var(--mt)">Lucy</td>
+      <td class="td-num"><span class="int-est">$2.89M</span><span class="sub"> est.</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-b"><span class="int-est">$3.17M</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-up td-b">+$277K</td>
+      <td class="td-num td-up">+9.6%</td>
+      <td style="font-size:10.5px;color:var(--mt);padding:6px 10px;line-height:1.5">Active account pacing moved up $277,334 (5 more days of QTD data); ~12 accounts showing early Q2 activity contributing to stronger pacing signal</td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#43B89C">Snowflake</td>
+      <td style="font-size:10px;color:var(--mt)">Amanda</td>
+      <td class="td-num"><span class="int-est">$1.78M</span><span class="sub"> est.</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-b"><span class="int-est">$1.94M</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-up td-b">+$163K</td>
+      <td class="td-num td-up">+9.2%</td>
+      <td style="font-size:10.5px;color:var(--mt);padding:6px 10px;line-height:1.5">Active account pacing moved up $162,863 (5 more days of QTD data); ~1 accounts showing early Q2 activity contributing to stronger pacing signal</td>
+    </tr><tr>
+      <td class="td-name td-b" style="color:#00A1E0">Salesforce</td>
+      <td style="font-size:10px;color:var(--mt)">Lucy</td>
+      <td class="td-num"><span class="int-est">$7K</span><span class="sub"> est.</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-b"><span class="int-est">$217</span><span class="sub"> int GAS</span></td>
+      <td class="td-num td-risk td-b">$-6K</td>
+      <td class="td-num td-risk">-96.8%</td>
+      <td style="font-size:10.5px;color:var(--mt);padding:6px 10px;line-height:1.5">Active account pacing moved down $6,490 (5 more days of QTD data)</td>
+    </tr></tbody></table></div>
+  </details>
+
+  <details open>
+    <summary class="st">🎯 Forecast Confidence — By Integration
+      <span class="hint">Score 0–100. Inputs: % quarter elapsed (35%), % model from active accounts (30%), historical depth (20%), inverse watch/gap reliance (15%). Penalties for single-year seasonality and limited history.</span>
+    </summary>
+    <div class="conf-grid">
+    <div class="conf-card" style="border-top:3px solid #96580A">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#6C63FF">Shopify</div>
+          <div style="font-size:10px;color:var(--mt);margin-top:2px">Amanda</div>
+        </div>
+        <span class="conf-badge" style="background:#FEF0D0;color:#96580A;font-size:11px;padding:4px 10px">Medium · 49/100</span>
+      </div>
+      <div class="conf-bar-track" style="margin-bottom:10px"><div class="conf-bar-fill" style="width:49%;background:#96580A"></div></div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="mini-pill" style="background:#E8E8FF;color:#3D2B8E">95% active accounts</span>
+        <span class="mini-pill" style="background:#FEE2E2;color:#B91C1C">4% watch list</span>
+        <span class="mini-pill" style="background:#F5F5F5;color:#6B6860">7Q history</span>
+      </div>
+      <div style="font-size:10px;color:var(--mt);line-height:1.6">· Early in quarter (21% elapsed — confidence increases weekly)<br>· Shopify: Q2/Q1 seasonality unreliable — 2025 was ramp year, linear extrapolation used<br>· Strong base: 95% from active accounts with 7Q of history</div>
+    </div>
+    <div class="conf-card" style="border-top:3px solid #1A6B42">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#FF6584">Klaviyo</div>
+          <div style="font-size:10px;color:var(--mt);margin-top:2px">Amanda</div>
+        </div>
+        <span class="conf-badge" style="background:#E4F5EC;color:#1A6B42;font-size:11px;padding:4px 10px">High · 59/100</span>
+      </div>
+      <div class="conf-bar-track" style="margin-bottom:10px"><div class="conf-bar-fill" style="width:59%;background:#1A6B42"></div></div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="mini-pill" style="background:#E8E8FF;color:#3D2B8E">100% active accounts</span>
+        <span class="mini-pill" style="background:#FEE2E2;color:#B91C1C">0% watch list</span>
+        <span class="mini-pill" style="background:#F5F5F5;color:#6B6860">3Q history</span>
+      </div>
+      <div style="font-size:10px;color:var(--mt);line-height:1.6">· Early in quarter (21% elapsed — confidence increases weekly)</div>
+    </div>
+    <div class="conf-card" style="border-top:3px solid #1A6B42">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#F5A623">HubSpot</div>
+          <div style="font-size:10px;color:var(--mt);margin-top:2px">Lucy</div>
+        </div>
+        <span class="conf-badge" style="background:#E4F5EC;color:#1A6B42;font-size:11px;padding:4px 10px">High · 70/100</span>
+      </div>
+      <div class="conf-bar-track" style="margin-bottom:10px"><div class="conf-bar-fill" style="width:70%;background:#1A6B42"></div></div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="mini-pill" style="background:#E8E8FF;color:#3D2B8E">95% active accounts</span>
+        <span class="mini-pill" style="background:#FEE2E2;color:#B91C1C">5% watch list</span>
+        <span class="mini-pill" style="background:#F5F5F5;color:#6B6860">9Q history</span>
+      </div>
+      <div style="font-size:10px;color:var(--mt);line-height:1.6">· Early in quarter (21% elapsed — confidence increases weekly)<br>· Strong base: 95% from active accounts with 9Q of history</div>
+    </div>
+    <div class="conf-card" style="border-top:3px solid #1A6B42">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#43B89C">Snowflake</div>
+          <div style="font-size:10px;color:var(--mt);margin-top:2px">Amanda</div>
+        </div>
+        <span class="conf-badge" style="background:#E4F5EC;color:#1A6B42;font-size:11px;padding:4px 10px">High · 72/100</span>
+      </div>
+      <div class="conf-bar-track" style="margin-bottom:10px"><div class="conf-bar-fill" style="width:72%;background:#1A6B42"></div></div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="mini-pill" style="background:#E8E8FF;color:#3D2B8E">100% active accounts</span>
+        <span class="mini-pill" style="background:#FEE2E2;color:#B91C1C">0% watch list</span>
+        <span class="mini-pill" style="background:#F5F5F5;color:#6B6860">9Q history</span>
+      </div>
+      <div style="font-size:10px;color:var(--mt);line-height:1.6">· Early in quarter (21% elapsed — confidence increases weekly)<br>· Strong base: 100% from active accounts with 9Q of history</div>
+    </div>
+    <div class="conf-card" style="border-top:3px solid #96580A">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px">
+        <div>
+          <div style="font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#00A1E0">Salesforce</div>
+          <div style="font-size:10px;color:var(--mt);margin-top:2px">Lucy</div>
+        </div>
+        <span class="conf-badge" style="background:#FEF0D0;color:#96580A;font-size:11px;padding:4px 10px">Medium · 38/100</span>
+      </div>
+      <div class="conf-bar-track" style="margin-bottom:10px"><div class="conf-bar-fill" style="width:38%;background:#96580A"></div></div>
+      <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+        <span class="mini-pill" style="background:#E8E8FF;color:#3D2B8E">100% active accounts</span>
+        <span class="mini-pill" style="background:#FEE2E2;color:#B91C1C">0% watch list</span>
+        <span class="mini-pill" style="background:#F5F5F5;color:#6B6860">1Q history</span>
+      </div>
+      <div style="font-size:10px;color:var(--mt);line-height:1.6">· Early in quarter (21% elapsed — confidence increases weekly)<br>· Limited integration history (1 quarter)</div>
+    </div></div>
+  </details>
+</div>
 <div class="tab-panel" id="panel-amanda">
   <div class="ic-hdr-main">
     <div class="av">A</div>
@@ -3746,6 +4001,28 @@ function switchTab(id){
 document.addEventListener('DOMContentLoaded',function(){
   var btns=document.querySelectorAll('.tab-btn');
   if(btns.length>0){btns[0].click();}
+  
+  (function(){
+    var el=document.getElementById('chart-summary-all');if(!el)return;
+    new Chart(el,{
+      type:'bar',
+      data:{
+        labels:["Q2 2025", "Q3 2025", "Q4 2025", "Q1 2026", "Q2 2026 QTD"],
+        datasets:[{"label": "Shopify", "data": [2728086, 5908429, 7605063, 4710687, 1278103], "backgroundColor": "#6C63FF88", "borderColor": "#6C63FF", "borderWidth": 2, "borderRadius": 4}, {"label": "Klaviyo", "data": [0, 89429, 208654, 270686, 173395], "backgroundColor": "#FF658488", "borderColor": "#FF6584", "borderWidth": 2, "borderRadius": 4}, {"label": "HubSpot", "data": [1835204, 1977354, 2556731, 2306595, 547533], "backgroundColor": "#F5A62388", "borderColor": "#F5A623", "borderWidth": 2, "borderRadius": 4}, {"label": "Snowflake", "data": [1521839, 2087521, 2684713, 1581382, 316456], "backgroundColor": "#43B89C88", "borderColor": "#43B89C", "borderWidth": 2, "borderRadius": 4}, {"label": "Salesforce", "data": [0, 0, 0, 32981, 45], "backgroundColor": "#00A1E088", "borderColor": "#00A1E0", "borderWidth": 2, "borderRadius": 4}]
+      },
+      options:{
+        responsive:true,maintainAspectRatio:false,
+        plugins:{
+          legend:{display:true,position:'top',labels:{font:{size:10,family:'Inter'},boxWidth:10,padding:12}},
+          tooltip:{callbacks:{label:ctx=>'Integration GAS: $'+(ctx.raw/1000).toFixed(0)+'K'}}
+        },
+        scales:{
+          x:{stacked:false,ticks:{color:'#888',font:{size:10}},grid:{display:false}},
+          y:{ticks:{callback:v=>'$'+(v/1000000).toFixed(1)+'M',color:'#888',font:{size:10}},grid:{color:'#f0f0f0'}}
+        }
+      }
+    });
+  })();
 });
 </script>
 </body>
