@@ -77,6 +77,19 @@ table.dt tr:hover td{background:#F9F8FF}
 .foot{text-align:center;font-size:10px;color:var(--mt);padding:20px;border-top:1px solid var(--bdr);margin-top:28px}
 @media(max-width:700px){.pills{flex-direction:column}.gl-grid{grid-template-columns:1fr}}
 </style></head><body>
+<script>
+(function(){
+  var pwd = sessionStorage.getItem('alliance_auth');
+  if(pwd !== 'alliance2026') {
+    var input = prompt('Enter password to access the Alliance IC Brief:');
+    if(input !== 'alliance2026') {
+      document.body.innerHTML = '<div style="display:flex;align-items:center;justify-content:center;height:100vh;font-family:Inter,sans-serif;color:#7B6F8C;flex-direction:column;gap:12px"><div style="font-size:32px">🔒</div><div style="font-weight:600">Access denied. Reload the page to try again.</div></div>';
+      return;
+    }
+    sessionStorage.setItem('alliance_auth','alliance2026');
+  }
+})();
+</script>
 
 <div class="hdr">
   <div class="av" style="background:rgba(255,255,255,0.2);font-size:16px">🤝</div>
